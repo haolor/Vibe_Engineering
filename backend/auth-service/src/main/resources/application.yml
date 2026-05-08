@@ -1,0 +1,20 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/auth_db}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:this-is-a-long-demo-jwt-secret-key-for-vibe-application}

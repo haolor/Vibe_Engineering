@@ -1,0 +1,95 @@
+version: "3.9"
+services:
+  mongo:
+    image: mongo:7
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  mongo-init:
+    image: mongo:7
+    depends_on:
+      - mongo
+    restart: "no"
+    entrypoint:
+      - /bin/sh
+      - -c
+      - >
+        sleep 5 &&
+        mongosh --host mongo:27017 --eval
+        "try { rs.status() } catch (e) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}) }"
+
+  eureka-server:
+    image: maven:3.9.8-eclipse-temurin-17
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: mvn -pl eureka-server spring-boot:run
+    ports:
+      - "8761:8761"
+
+  auth-service:
+    image: maven:3.9.8-eclipse-temurin-17
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: mvn -pl auth-service spring-boot:run
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - MONGODB_URI=mongodb://mongo:27017/auth_db?replicaSet=rs0
+    depends_on:
+      - mongo-init
+      - eureka-server
+    ports:
+      - "8081:8081"
+
+  finance-service:
+    image: maven:3.9.8-eclipse-temurin-17
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: mvn -pl finance-service spring-boot:run
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - MONGODB_URI=mongodb://mongo:27017/finance_db?replicaSet=rs0
+    depends_on:
+      - mongo-init
+      - eureka-server
+    ports:
+      - "8082:8082"
+
+  notification-service:
+    image: maven:3.9.8-eclipse-temurin-17
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: mvn -pl notification-service spring-boot:run
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - MONGODB_URI=mongodb://mongo:27017/notification_db?replicaSet=rs0
+    depends_on:
+      - mongo-init
+      - eureka-server
+    ports:
+      - "8083:8083"
+
+  api-gateway:
+    image: maven:3.9.8-eclipse-temurin-17
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: mvn -pl api-gateway spring-boot:run
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - auth-service
+      - finance-service
+      - notification-service
+    ports:
+      - "8080:8080"
+
+volumes:
+  mongo_data:

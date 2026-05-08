@@ -1,0 +1,55 @@
+[33mcommit 52d58faa92b711c7ab48340653e344a17d11cb0a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Minh Hao <dangminhhao365@gmail.com>
+Date:   Fri May 8 13:39:49 2026 +0700
+
+    feat(chatbot): add chatbot to perform auto query
+
+ .gitignore                                         | Bin [31m275[m -> [32m328[m bytes
+ .../api-gateway/src/main/resources/application.yml |  16 [32m+[m[31m-[m
+ .../target/api-gateway-0.0.1-SNAPSHOT.jar          | Bin [31m0[m -> [32m5543[m bytes
+ backend/api-gateway/target/classes/application.yml |  14 [32m+[m
+ .../target/maven-archiver/pom.properties           |   3 [32m+[m
+ .../compile/default-compile/createdFiles.lst       |   2 [32m+[m
+ .../compile/default-compile/inputFiles.lst         |   2 [32m+[m
+ .../java/com/vibe/auth/api/AuthController.java     |   6 [32m+[m[31m-[m
+ .../com/vibe/auth/api/GlobalExceptionHandler.java  |  21 [32m++[m
+ .../main/java/com/vibe/auth/store/UserStore.java   |   3 [32m+[m[31m-[m
+ .../src/main/resources/application.yml             |   4 [32m+[m[31m-[m
+ .../target/auth-service-0.0.1-SNAPSHOT.jar         | Bin [31m0[m -> [32m11065[m bytes
+ .../auth-service/target/classes/application.yml    |   2 [32m+[m
+ .../classes/com/vibe/auth/api/AuthController.class | Bin [31m5086[m -> [32m5093[m bytes
+ .../com/vibe/auth/api/GlobalExceptionHandler.class | Bin [31m0[m -> [32m2257[m bytes
+ .../classes/com/vibe/auth/store/UserStore.class    | Bin [31m6074[m -> [32m6378[m bytes
+ .../target/maven-archiver/pom.properties           |   3 [32m+[m
+ .../compile/default-compile/createdFiles.lst       |   6 [32m+[m
+ .../compile/default-compile/inputFiles.lst         |   6 [32m+[m
+ .../target/eureka-server-0.0.1-SNAPSHOT.jar        | Bin [31m0[m -> [32m2593[m bytes
+ .../target/maven-archiver/pom.properties           |   3 [32m+[m
+ .../compile/default-compile/createdFiles.lst       |   1 [32m+[m
+ .../compile/default-compile/inputFiles.lst         |   1 [32m+[m
+ backend/finance-service/pom.xml                    |   4 [32m+[m
+ .../java/com/vibe/finance/api/AIController.java    | 163 [32m++++++++[m
+ .../com/vibe/finance/api/ChatbotController.java    |  30 [32m++[m
+ .../com/vibe/finance/api/FinanceController.java    | 173 [32m++++++++[m[31m-[m
+ .../vibe/finance/api/GlobalExceptionHandler.java   |  21 [32m++[m
+ .../com/vibe/finance/config/WebClientConfig.java   |  21 [32m++[m
+ .../com/vibe/finance/service/GeminiService.java    |  79 [32m++++[m
+ .../vibe/finance/service/NotificationClient.java   |  28 [32m++[m
+ .../java/com/vibe/finance/store/FinanceStore.java  |  43 [32m++[m[31m-[m
+ .../src/main/resources/application.yml             |   7 [32m+[m
+ .../finance-service/target/classes/application.yml |   7 [32m+[m
+ .../vibe/finance/FinanceServiceApplication.class   | Bin [31m733[m -> [32m733[m bytes
+ .../com/vibe/finance/api/AIController.class        | Bin [31m0[m -> [32m10491[m bytes
+ .../com/vibe/finance/api/ChatbotController.class   | Bin [31m0[m -> [32m2064[m bytes
+ .../com/vibe/finance/api/FinanceController.class   | Bin [31m5661[m -> [32m13721[m bytes
+ .../vibe/finance/api/GlobalExceptionHandler.class  | Bin [31m0[m -> [32m2263[m bytes
+ .../com/vibe/finance/config/SequenceService.class  | Bin [31m2449[m -> [32m2449[m bytes
+ .../com/vibe/finance/config/WebClientConfig.class  | Bin [31m0[m -> [32m1002[m bytes
+ .../com/vibe/finance/model/CategoryDocument.class  | Bin [31m1732[m -> [32m1732[m bytes
+ .../com/vibe/finance/model/CounterDocument.class   | Bin [31m993[m -> [32m993[m bytes
+ .../vibe/finance/model/TransactionDocument.class   | Bin [31m2895[m -> [32m2895[m bytes
+ .../com/vibe/finance/repo/CategoryRepository.class | Bin [31m564[m -> [32m564[m bytes
+ .../vibe/finance/repo/TransactionRepository.class  | Bin [31m759[m -> [32m759[m bytes
+ .../com/vibe/finance/service/GeminiService.class   | Bin [31m0[m -> [32m7372[m bytes
+ .../vibe/finance/service/NotificationClient.class  | Bin [31m0[m -> [32m3812[m bytes
+ .../com/vibe/f
